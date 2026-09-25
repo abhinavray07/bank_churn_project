@@ -118,7 +118,7 @@ with col2:
             ChurnRate=('Exited', 'mean')
         ).sort_values('ChurnRate', ascending=False)
         summary['ChurnRate'] = (summary['ChurnRate'] * 100).round(1).astype(str) + '%'
-        st.dataframe(summary, use_container_width=True)
+        st.dataframe(summary, width='stretch')
     else:
         st.warning("No customers match the current filters.")
 
@@ -156,7 +156,7 @@ with col2:
             ChurnRate=('Exited', 'mean')
         )
         product_summary['ChurnRate'] = (product_summary['ChurnRate'] * 100).round(1).astype(str) + '%'
-        st.dataframe(product_summary, use_container_width=True)
+        st.dataframe(product_summary, width='stretch')
 
         if 3 in filtered_df['NumOfProducts'].values or 4 in filtered_df['NumOfProducts'].values:
             st.caption("⚠️ 3-4 product customers show a sharp, unexplained churn spike — see research paper Section 4.3.")
@@ -191,7 +191,7 @@ if len(at_risk) > 0:
     display_cols = ['CustomerId', 'Surname', 'Geography', 'Age', 'Balance', 'EstimatedSalary', 'NumOfProducts', 'Tenure']
     st.dataframe(
         at_risk[display_cols].sort_values('Balance', ascending=False),
-        use_container_width=True,
+        width='stretch',
         hide_index=True
     )
 else:
@@ -237,6 +237,6 @@ if len(filtered_df) > 0:
         'AvgRelationshipStrength': g['RelationshipStrengthIndex'].mean(),
         'HighBalanceDisengagement': (g[g['HighBalance']==1]['IsActiveMember']==0).mean() if len(g[g['HighBalance']==1]) > 0 else float('nan')
     }), include_groups=False).round(3)
-    st.dataframe(geo_kpi, use_container_width=True)
+    st.dataframe(geo_kpi, width='stretch')
 else:
     st.warning("No customers match the current filters.")
