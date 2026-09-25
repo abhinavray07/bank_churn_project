@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 sns.set_style('whitegrid')
 
@@ -9,7 +10,9 @@ st.set_page_config(page_title="Customer Retention Analytics", layout="wide")
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('../data/European_Bank.csv')
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    DATA_PATH = os.path.join(SCRIPT_DIR, '..', 'data', 'European_Bank.csv')
+    df = pd.read_csv(DATA_PATH)
     df = df.drop(columns=['Year'])
     df['AgeBand'] = pd.cut(df['Age'], bins=[18, 30, 45, 60, 92], labels=['18-30', '31-45', '46-60', '61+'])
     df['HighBalance'] = (df['Balance'] > df['Balance'].median()).astype(int)
